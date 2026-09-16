@@ -18,6 +18,7 @@ const QUOTES = [
 ];
 
 export default function FocusMode({ tasks, onClose, onCompleteTask }: FocusModeProps) {
+  const [totalSeconds, setTotalSeconds] = useState(25 * 60);
   const [secondsLeft, setSecondsLeft] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [activeTaskId, setActiveTaskId] = useState<number | null>(tasks.find((t) => !t.done)?.id || null);
@@ -26,8 +27,8 @@ export default function FocusMode({ tasks, onClose, onCompleteTask }: FocusModeP
 
   const audioCtxRef = useRef<AudioContext | null>(null);
 
-  const totalSeconds = 25 * 60;
-  const progressOffset = 691 * (1 - secondsLeft / totalSeconds);
+  const progressRatio = totalSeconds > 0 ? Math.min(1, Math.max(0, 1 - secondsLeft / totalSeconds)) : 0;
+  const progressOffset = 691 * progressRatio;
 
   useEffect(() => {
     let interval: number | undefined;
@@ -87,6 +88,20 @@ export default function FocusMode({ tasks, onClose, onCompleteTask }: FocusModeP
     };
   }, [isSoundOn]);
 
+  const addFiveMinutes = () => {
+    setSecondsLeft((prevSec) => {
+      const nextSec = prevSec + 5 * 60;
+      setTotalSeconds((prevTotal) => Math.max(prevTotal, nextSec));
+      return nextSec;
+    });
+  };
+
+  const resetTimer = () => {
+    setIsRunning(false);
+    setSecondsLeft(25 * 60);
+    setTotalSeconds(25 * 60);
+  };
+
   const minutes = Math.floor(secondsLeft / 60);
   const seconds = secondsLeft % 60;
   const formattedTime = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
@@ -132,7 +147,7 @@ export default function FocusMode({ tasks, onClose, onCompleteTask }: FocusModeP
               ))}
             </select>
           ) : (
-            <span>General Deep Work Session</span>
+            <span>General Task Session</span>
           )}
         </div>
 
@@ -161,16 +176,13 @@ export default function FocusMode({ tasks, onClose, onCompleteTask }: FocusModeP
           </button>
           <button
             className="focus-btn focus-btn-secondary"
-            onClick={() => {
-              setIsRunning(false);
-              setSecondsLeft(25 * 60);
-            }}
+            onClick={resetTimer}
           >
             Reset
           </button>
           <button
             className="focus-btn focus-btn-secondary"
-            onClick={() => setSecondsLeft((s) => s + 5 * 60)}
+            onClick={addFiveMinutes}
           >
             +5 min
           </button>

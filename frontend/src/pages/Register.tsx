@@ -14,9 +14,9 @@ function Register() {
 
   function getPasswordStrength(pass: string) {
     if (!pass) return { score: 0, label: "", color: "#d9ddea" };
-    if (pass.length < 6) return { score: 33, label: "Weak - add more characters", color: "#cf4d77" };
+    if (pass.length < 6) return { score: 33, label: "Weak password", color: "#cf4d77" };
     if (pass.length < 10) return { score: 66, label: "Good password ✦", color: "#6470a2" };
-    return { score: 100, label: "Crazy secure & strong! ✦", color: "#56613a" };
+    return { score: 100, label: "Strong password ✦", color: "#56613a" };
   }
 
   const strength = getPasswordStrength(password);
@@ -56,20 +56,15 @@ function Register() {
         </Link>
         <div className="hero-sun-auth" aria-hidden="true">☼</div>
         <div className="story-copy">
-          <p className="eyebrow">MAKE ROOM FOR GREAT WORK</p>
+          <p className="eyebrow">GET STARTED</p>
           <h1>
-            Your client work deserves a <em>better rhythm.</em>
+            Organize your <em>client workflow.</em>
           </h1>
-          <p>Bring every handoff, conversation, and goal into one beautifully focused workspace.</p>
-        </div>
-
-        <div className="auth-hero-card">
-          <strong>Infinite Clarity ✦</strong>
-          <p>Fewer lost emails, more joyful progress every single day.</p>
+          <p>Set up your task planner to track progress, assign priorities, and deliver on time.</p>
         </div>
 
         <p className="story-note">
-          <span>✦</span> Your command center will be ready in seconds.
+          <span>✦</span> Quick setup for your task workspace.
         </p>
       </section>
 
@@ -78,11 +73,11 @@ function Register() {
           <Link to="/" className="mobile-brand">
             <span className="brand-mark">C</span>ClientFlow
           </Link>
-          <p className="eyebrow">START YOUR FLOW</p>
+          <p className="eyebrow">NEW ACCOUNT</p>
           <h2>
             Create your <em>workspace.</em>
           </h2>
-          <p className="auth-subtitle">A fresh, focused home for the work ahead.</p>
+          <p className="auth-subtitle">Fill in your details to start managing tasks.</p>
 
           <form className="auth-form" onSubmit={handleSubmit}>
             <label>
@@ -148,17 +143,17 @@ function Register() {
             {error && <p className="form-error" role="alert">{error}</p>}
 
             <button className="auth-submit" type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Creating your workspace…" : "Create my workspace"}
+              {isSubmitting ? "Creating workspace…" : "Create my workspace"}
               <span>→</span>
             </button>
           </form>
 
           <button type="button" className="demo-login-btn" onClick={handleDemoRegister}>
-            ⚡ Instant Demo Register (Skip backend)
+            ⚡ Instant Demo Access (Skip Registration)
           </button>
 
           <p className="auth-footer">
-            Already have an account? <Link to="/login">Log in</Link>
+            Already have an account? <Link to="/login">Log in here</Link>
           </p>
         </div>
       </section>

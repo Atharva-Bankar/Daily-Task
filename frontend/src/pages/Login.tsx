@@ -21,7 +21,7 @@ function Login() {
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data.message || "Unable to log in. Please check your credentials.");
+      if (!response.ok) throw new Error(data.message || "Unable to log in. Please check your details.");
       sessionStorage.setItem("clientflow-user", JSON.stringify(data));
       navigate("/");
     } catch (submitError) {
@@ -46,20 +46,15 @@ function Login() {
         </Link>
         <div className="hero-sun-auth" aria-hidden="true">☼</div>
         <div className="story-copy">
-          <p className="eyebrow">YOUR WORKSPACE, IN FLOW</p>
+          <p className="eyebrow">CLIENTFLOW WORKSPACE</p>
           <h1>
-            Turn client moments into <em>momentum.</em>
+            Manage your client <em>tasks & projects.</em>
           </h1>
-          <p>One calm, vibrant place for relationships, projects, and the work that moves them forward.</p>
-        </div>
-
-        <div className="auth-hero-card">
-          <strong>Daily Goal ✦</strong>
-          <p>Small steps completed with focus create immense momentum.</p>
+          <p>Track deadlines, organize daily priorities, and keep every project on schedule.</p>
         </div>
 
         <p className="story-note">
-          <span>✦</span> Built for creators and teams who value calm productivity.
+          <span>✦</span> Simple, focused task management for client work.
         </p>
       </section>
 
@@ -68,11 +63,11 @@ function Login() {
           <Link to="/" className="mobile-brand">
             <span className="brand-mark">C</span>ClientFlow
           </Link>
-          <p className="eyebrow">WELCOME BACK</p>
+          <p className="eyebrow">SIGN IN</p>
           <h2>
-            Pick up where you <em>left off.</em>
+            Welcome <em>back.</em>
           </h2>
-          <p className="auth-subtitle">Sign in to see what your clients need next.</p>
+          <p className="auth-subtitle">Enter your credentials to access your tasks.</p>
 
           <form className="auth-form" onSubmit={handleSubmit}>
             <label>
@@ -122,17 +117,17 @@ function Login() {
             {error && <p className="form-error" role="alert">{error}</p>}
 
             <button className="auth-submit" type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Opening your workspace…" : "Log in to ClientFlow"}
+              {isSubmitting ? "Opening workspace…" : "Log in to ClientFlow"}
               <span>→</span>
             </button>
           </form>
 
           <button type="button" className="demo-login-btn" onClick={handleDemoLogin}>
-            ⚡ Instant Demo Access (1-Click Guest Login)
+            ⚡ Instant Guest Access (1-Click Login)
           </button>
 
           <p className="auth-footer">
-            New around here? <Link to="/register">Create an account</Link>
+            Need an account? <Link to="/register">Create one here</Link>
           </p>
         </div>
       </section>
