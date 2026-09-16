@@ -1,0 +1,183 @@
+import { useState } from "react";
+import type { FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+function Register() {
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [registered, setRegistered] = useState(false);
+
+  function getPasswordStrength(pass: string) {
+    if (!pass) return { score: 0, label: "", color: "#d9ddea" };
+    if (pass.length < 6) return { score: 33, label: "Weak - add more characters", color: "#cf4d77" };
+    if (pass.length < 10) return { score: 66, label: "Good password ✦", color: "#6470a2" };
+    return { score: 100, label: "Crazy secure & strong! ✦", color: "#56613a" };
+  }
+
+  const strength = getPasswordStrength(password);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("http://localhost:5000/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, username: email, password }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.message || "We couldn't create your account. Please try again.");
+      setRegistered(true);
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : "Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  function handleDemoRegister() {
+    const demoUser = { name: name || "Creative Partner", email: email || "creator@clientflow.io" };
+    sessionStorage.setItem("clientflow-user", JSON.stringify(demoUser));
+    navigate("/");
+  }
+
+  return (
+    <main className="auth-shell">
+      <section className="auth-story" aria-label="ClientFlow introduction">
+        <Link to="/" className="brand">
+          <span className="brand-mark">C</span>
+          ClientFlow
+        </Link>
+        <div className="hero-sun-auth" aria-hidden="true">☼</div>
+        <div className="story-copy">
+          <p className="eyebrow">MAKE ROOM FOR GREAT WORK</p>
+          <h1>
+            Your client work deserves a <em>better rhythm.</em>
+          </h1>
+          <p>Bring every handoff, conversation, and goal into one beautifully focused workspace.</p>
+        </div>
+
+        <div className="auth-hero-card">
+          <strong>Infinite Clarity ✦</strong>
+          <p>Fewer lost emails, more joyful progress every single day.</p>
+        </div>
+
+        <p className="story-note">
+          <span>✦</span> Your command center will be ready in seconds.
+        </p>
+      </section>
+
+      <section className="auth-panel">
+        <div className="auth-card">
+          <Link to="/" className="mobile-brand">
+            <span className="brand-mark">C</span>ClientFlow
+          </Link>
+          <p className="eyebrow">START YOUR FLOW</p>
+          <h2>
+            Create your <em>workspace.</em>
+          </h2>
+          <p className="auth-subtitle">A fresh, focused home for the work ahead.</p>
+
+          <form className="auth-form" onSubmit={handleSubmit}>
+            <label>
+              Your name
+              <input
+                type="text"
+                placeholder="e.g. Alex Morgan"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                required
+                autoComplete="name"
+              />
+            </label>
+
+            <label>
+              Work email
+              <input
+                type="email"
+                placeholder="you@company.com"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                required
+                autoComplete="email"
+              />
+            </label>
+
+            <label>
+              Create a password
+              <div className="password-input-wrapper">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="At least 8 characters"
+                  minLength={8}
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  required
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  className="password-toggle-btn"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? "🙈" : "👁️"}
+                </button>
+              </div>
+              {password && (
+                <div className="strength-meter">
+                  <div className="strength-bar-track">
+                    <div
+                      className="strength-bar-fill"
+                      style={{ width: `${strength.score}%`, background: strength.color }}
+                    />
+                  </div>
+                  <span className="strength-label" style={{ color: strength.color }}>
+                    {strength.label}
+                  </span>
+                </div>
+              )}
+            </label>
+
+            {error && <p className="form-error" role="alert">{error}</p>}
+
+            <button className="auth-submit" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Creating your workspace…" : "Create my workspace"}
+              <span>→</span>
+            </button>
+          </form>
+
+          <button type="button" className="demo-login-btn" onClick={handleDemoRegister}>
+            ⚡ Instant Demo Register (Skip backend)
+          </button>
+
+          <p className="auth-footer">
+            Already have an account? <Link to="/login">Log in</Link>
+          </p>
+        </div>
+      </section>
+
+      {registered && (
+        <div className="success-backdrop" role="dialog" aria-modal="true" aria-labelledby="success-title">
+          <div className="success-modal">
+            <div className="success-icon">✓</div>
+            <p className="eyebrow">YOU'RE ALL SET</p>
+            <h2 id="success-title">Workspace created!</h2>
+            <p>Your ClientFlow account is ready. Log in to start organizing your client work.</p>
+            <button className="auth-submit" onClick={() => navigate("/login")} autoFocus>
+              Continue to login <span>→</span>
+            </button>
+          </div>
+        </div>
+      )}
+    </main>
+  );
+}
+
+export default Register;

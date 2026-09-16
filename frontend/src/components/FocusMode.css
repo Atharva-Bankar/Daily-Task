@@ -1,0 +1,193 @@
+.focus-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: radial-gradient(circle at 50% 30%, #202b54 0%, #0f152d 100%);
+  color: #f7f2e8;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 32px clamp(24px, 5vw, 64px);
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.focus-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.focus-brand {
+  font-family: Fraunces, Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #e7ee85;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.focus-badge {
+  background: #cf4d77;
+  color: #fff;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 1px;
+}
+
+.close-focus {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f7f2e8;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.close-focus:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.focus-center {
+  max-width: 600px;
+  margin: 40px auto;
+  text-align: center;
+  width: 100%;
+}
+
+.focus-task-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(215, 223, 119, 0.15);
+  border: 1px solid rgba(215, 223, 119, 0.3);
+  color: #d7df77;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.focus-timer-container {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  margin: 0 auto 32px;
+  display: grid;
+  place-items: center;
+}
+
+.focus-ring-svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+
+.focus-ring-bg {
+  stroke: rgba(255, 255, 255, 0.1);
+}
+
+.focus-ring-progress {
+  stroke: #d7df77;
+  stroke-dasharray: 691;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.focus-time-display {
+  font-family: Fraunces, Georgia, serif;
+  font-size: 64px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  color: #ffffff;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.focus-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.focus-btn {
+  border: none;
+  font-weight: 700;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.focus-btn-primary {
+  background: #d7df77;
+  color: #172242;
+  padding: 14px 36px;
+  font-size: 16px;
+  box-shadow: 0 8px 24px rgba(215, 223, 119, 0.3);
+}
+
+.focus-btn-primary:hover {
+  transform: translateY(-2px);
+  background: #e7ee85;
+}
+
+.focus-btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 14px 24px;
+  font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.focus-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.focus-sound-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(234, 177, 197, 0.15);
+  border: 1px solid rgba(234, 177, 197, 0.3);
+  color: #eab1c5;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.focus-sound-toggle.active {
+  background: #cf4d77;
+  color: #fff;
+}
+
+.focus-footer {
+  text-align: center;
+  color: #8b99c4;
+  font-size: 13px;
+}
+
+.focus-quote {
+  font-family: Fraunces, Georgia, serif;
+  font-style: italic;
+  color: #c9d5f7;
+  font-size: 16px;
+  max-width: 480px;
+  margin: 0 auto;
+}
